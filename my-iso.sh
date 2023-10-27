@@ -1,0 +1,61 @@
+#!/bin/bash
+
+# Check if Script is Run as Root
+if [[ $EUID -ne 0 ]]; then
+  echo "This script requires root privileges to run." >&2
+  exit 1
+fi
+
+# Update system
+sudo pacman -Syu
+
+# Install Git
+if command -v git &>/dev/null; then
+  echo "Git v$(git --version | awk '{print $3}') is already installed in your system"
+else
+  sudo pacman -S git -y
+fi
+
+# Clone and install Yay
+if command -v yay &>/dev/null; then
+  echo "Yay $(yay --version | awk '{print $2}') is already installed in your system"
+else
+  if ! command -v yay &>/dev/null; then
+    echo "Neither Paru nor Yay is present in your system."
+    echo "Installing Yay..."
+    git clone https://aur.archlinux.org/yay.git /tmp/yay
+    cd /tmp/yay && makepkg -si --noconfirm
+    cd -
+  fi
+fi
+
+# Define the path to the "Documents" folder
+documents_folder="$HOME/Documents"
+
+# Create the "Documents" folder if it doesn't exist
+mkdir -p "$documents_folder"
+
+# Download Arch Linux ISO to the "Documents" folder (Customize this section)
+iso_url="https://sourceforge.net/projects/alci/files/alci-iso/your-iso-file.iso/download"
+output_iso="$documents_folder/custom-archlinux.iso"
+wget "$iso_url" -O "$output_iso"
+
+# Making .config and Moving config files
+mkdir -p ~/.config
+cp -R /path/to/your/config/* ~/.config/
+
+# Installing Essential Programs
+yay -S wayland qt5-wayland qt6-wayland hyprpaper hyprpicker hyprshot hyprland kitty wezterm gnome-tweak-tool xorg-xwayland alsa-utils brightnessctl playerctl /
+imv mpv rofi-lbonn-wayland-git brave-bin gnome-tweak-tool qt5ct neovim pavucontrol stacer socat jq acpi inotify-tools /
+bluez nm-connection-editor gjs gnome-bluetooth-3.0 upower gtk3 networkmanager wl-clipboard polkit-kde-agent flatpak
+yay -S ttf-ms-win11-auto adobe-source-han-sans-jp-fonts adobe-source-han-sans-kr-fonts ttf-jetbrains-mono-nerd ttf-jetbrains-mono otf-font-awesome nerd-fonts-sf-mono otf-nerd-fonts-monacob-mono -y  ##fonts
+
+# Reloading Font
+fc-cache -vf
+
+# Enable graphical login and change target from CLI to GUI
+systemctl enable sddm
+
+# Create an Arch Linux ISO (Customize this section)
+iso_profile="custom"
+archiso -v -w "$output_iso" "$iso_profile"
