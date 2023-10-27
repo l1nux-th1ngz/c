@@ -2,8 +2,8 @@
 
 # Check if Script is Run as Root
 if [[ $EUID -ne 0 ]]; then
-  echo "This script requires root privileges to run." >&2
-  exit 1
+  echo "This script requires root privileges for some operations." >&2
+  echo "Please enter your password when prompted for specific commands."
 fi
 
 # Update system
@@ -29,16 +29,11 @@ else
   fi
 fi
 
-# Define the path to the "Documents" folder
-documents_folder="$HOME/Documents"
-
-# Create the "Documents" folder if it doesn't exist
-mkdir -p "$documents_folder"
-
-# Download Arch Linux ISO to the "Documents" folder (Customize this section)
+# Download Arch Linux ISO to the user's "Documents" folder (Customize this section)
 iso_url="https://sourceforge.net/projects/alci/files/alci-iso/your-iso-file.iso/download"
+documents_folder="$HOME/Documents"
 output_iso="$documents_folder/custom-archlinux.iso"
-wget "$iso_url" -O "$output_iso"
+sudo wget "$iso_url" -O "$output_iso"
 
 # Making .config and Moving config files
 mkdir -p ~/.config
@@ -54,7 +49,7 @@ yay -S ttf-ms-win11-auto adobe-source-han-sans-jp-fonts adobe-source-han-sans-kr
 fc-cache -vf
 
 # Enable graphical login and change target from CLI to GUI
-systemctl enable sddm
+sudo systemctl enable sddm
 
 # Create an Arch Linux ISO (Customize this section)
 iso_profile="custom"
