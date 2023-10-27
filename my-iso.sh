@@ -39,11 +39,14 @@ sudo wget "$iso_url" -O "$output_iso"
 mkdir -p ~/.config
 cp -R /path/to/your/config/* ~/.config/
 
-# Installing Essential Programs
+# Installing Essential Programs (including xdg-user-dirs and xdg-user-dirs-gtk)
 yay -S wayland qt5-wayland qt6-wayland hyprpaper hyprpicker hyprshot hyprland kitty wezterm gnome-tweak-tool xorg-xwayland alsa-utils brightnessctl playerctl /
 imv mpv rofi-lbonn-wayland-git brave-bin gnome-tweak-tool qt5ct neovim pavucontrol stacer socat jq acpi inotify-tools /
-bluez nm-connection-editor gjs gnome-bluetooth-3.0 upower gtk3 networkmanager wl-clipboard polkit-kde-agent flatpak
-yay -S ttf-ms-win11-auto adobe-source-han-sans-jp-fonts adobe-source-han-sans-kr-fonts ttf-jetbrains-mono-nerd ttf-jetbrains-mono otf-font-awesome nerd-fonts-sf-mono otf-nerd-fonts-monacob-mono -y  ##fonts
+bluez nm-connection-editor gjs gnome-bluetooth-3.0 upower gtk3 networkmanager wl-clipboard polkit-kde-agent flatpak xdg-user-dirs xdg-user-dirs-gtk
+
+# Update xdg-user-dirs and xdg-user-dirs-gtk
+sudo xdg-user-dirs-update
+sudo xdg-user-dirs-gtk-update
 
 # Reloading Font
 fc-cache -vf
