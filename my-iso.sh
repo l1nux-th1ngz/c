@@ -61,4 +61,4 @@ if ! command -v archiso &>/dev/null; then
 fi
 
 # Create the Arch Linux ISO
-archiso -v -w "$output_iso" "$iso_profile"
+archiso -v -w "$output_iso" "$iso_profile" --clean
