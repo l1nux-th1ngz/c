@@ -29,11 +29,11 @@ else
   fi
 fi
 
-# Download Arch Linux ISO to the user's "Documents" folder (Customize this section)
-iso_url="https://sourceforge.net/projects/alci/files/alci-iso/your-iso-file.iso/download"
+# Download Arch Linux ISO to the user's "Documents" folder
+iso_download_link="https://sourceforge.net/projects/alci/files/alci-iso/your-iso-file.iso/download"
 documents_folder="$HOME/Documents"
 output_iso="$documents_folder/custom-archlinux.iso"
-sudo wget "$iso_url" -O "$output_iso"
+sudo wget "$iso_download_link" -O "$output_iso"
 
 # Making .config and Moving config files
 mkdir -p ~/.config
@@ -51,11 +51,14 @@ sudo xdg-user-dirs-gtk-update
 # Reloading Font
 fc-cache -vf
 
-# Enable graphical login and change target from CLI to GUI (if sddm.service exists)
-if systemctl list-units --full -all | grep -q 'sddm.service'; then
-    sudo systemctl enable sddm
-fi
-
 # Create an Arch Linux ISO (Customize this section)
 iso_profile="custom"
+
+# Download and extract archiso (Arch Linux ISO creation tool)
+if ! command -v archiso &>/dev/null; then
+  echo "Archiso is not installed. Installing archiso..."
+  yay -S archiso
+fi
+
+# Create the Arch Linux ISO
 archiso -v -w "$output_iso" "$iso_profile"
