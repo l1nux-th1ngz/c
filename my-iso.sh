@@ -54,11 +54,8 @@ fc-cache -vf
 # Create an Arch Linux ISO (Customize this section)
 iso_profile="custom"
 
-# Download and extract archiso (Arch Linux ISO creation tool)
-if ! command -v archiso &>/dev/null; then
-  echo "Archiso is not installed. Installing archiso..."
-  yay -S archiso
-fi
+# Install archiso package
+yay -S archiso
 
 # Create the Arch Linux ISO
-archiso -v -w "$output_iso" "$iso_profile" --clean
+archiso -v -w "$output_iso" "$iso_profile"
