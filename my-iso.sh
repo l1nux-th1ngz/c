@@ -51,8 +51,10 @@ sudo xdg-user-dirs-gtk-update
 # Reloading Font
 fc-cache -vf
 
-# Enable graphical login and change target from CLI to GUI
-sudo systemctl enable sddm
+# Enable graphical login and change target from CLI to GUI (if sddm.service exists)
+if systemctl list-units --full -all | grep -q 'sddm.service'; then
+    sudo systemctl enable sddm
+fi
 
 # Create an Arch Linux ISO (Customize this section)
 iso_profile="custom"
