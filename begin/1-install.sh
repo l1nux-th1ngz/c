@@ -1,27 +1,26 @@
 #!/bin/bash
-#  _   _                    ____  _             _             
-# | | | |_   _ _ __  _ __  / ___|| |_ __ _ _ __| |_ ___ _ __  
-# | |_| | | | | '_ \| '__| \___ \| __/ _` | '__| __/ _ \ '__| 
-# |  _  | |_| | |_) | |     ___) | || (_| | |  | ||  __/ |    
-# |_| |_|\__, | .__/|_|    |____/ \__\__,_|_|   \__\___|_|    
-#        |___/|_|                                             
-#  
-# by Stephan Raabe (2023) 
-# ----------------------------------------------------- 
 
-# ------------------------------------------------------
-# Confirm Start
+# Start
 # ------------------------------------------------------
 clear
-echo ""
-echo "WELCOME TO THE HYPRLAND STARTER INSTALLATION SCRIPT"
-echo "------------------------------------------------------"
-echo ""
-echo "Please make sure that you run this script from $HOME/hyprland-starter/"
+echo "Please make sure that you run this script from $HOME/go/"
 echo "Backup existing configurations in .config if needed."
 echo ""
+# Check if yay is installed
+ISyay=/sbin/yay
+if [ -f "$ISyay" ]; then
+    echo "yay was located, moving on."
+else 
+    echo "yay was NOT located"
+    read -n1 -p "Would you like to install yay (Y, n)" INST
+    if [[ $INST =~ ^[Yy]$ ]]; then
+        git clone https://aur.archlinux.org/yay.git
+        cd yay
+        makepkg -si --noconfirm
+        cd ..
+    fi
 while true; do
-    read -p "DO YOU WANT TO START THE INSTALLATION NOW? (Yy/Nn): " yn
+    read -p "DO YOU WANT TO START THE INSTALLATION NOW? (Y/n): " y
     case $yn in
         [Yy]* )
             echo "Installation started."
@@ -29,24 +28,24 @@ while true; do
         [Nn]* ) 
             exit;
         break;;
-        * ) echo "Please answer yes or no.";;
+        * ) echo "Please answer yes.";;
     esac
 done
 
-sudo pacman -S hyprland waybar rofi wofi kitty alacritty dunst dolphin xdg-desktop-portal-hyprland qt5-wayland qt6-wayland hyprpaper chromium ttf-font-awesome
+sudo pacman -S hyprland waybar rofi wofi kitty alacritty dunst dolphin xdg-desktop-portal-hyprland qt5-wayland qt6-wayland hyprpaper chromium ttf-font-awesome sddm 
 
 while true; do
     echo ""
-    read -p "DO YOU WANT TO COPY THE FILES INTO .config? YOU CAN ALSO DO THIS MANUALLY (Yy/Nn): " yn
+    read -p "DO YOU WANT TO COPY THE FILES INTO .config? YOU CAN ALSO DO THIS MANUALLY (Y/n): " yn
     case $yn in
         [Yy]* )
-            cp -r ~/hyprland-starter/* ~/.config/
+            cp -r ~/go/* ~/.config/
             echo "Configuration files successfully copied to ~/.config/"
         break;;
         [Nn]* ) 
             exit;
         break;;
-        * ) echo "Please answer yes or no.";;
+        * ) echo "Please answer yes.";;
     esac
 done
 
