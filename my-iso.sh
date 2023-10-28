@@ -104,4 +104,16 @@ echo "%wheel ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 # User creation
 echo -n "Enter username for new user: "
 read username
-useradd -m -g users -G wheel -s /bin/zsh
+useradd -m -g users -G wheel -s /bin/zsh "$username"
+passwd "$username"
+
+# Yay
+git clone https://aur.archlinux.org/yay.git
+cd yay
+makepkg -si
+
+# Install remaining packages
+yay -S hyprland-git xdg-desktop-portal-hyprland-git
+
+# End of the script
+echo "Installation complete!"
