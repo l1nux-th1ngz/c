@@ -52,7 +52,6 @@ echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen
 locale-gen
 echo "LANG=en_US.UTF-8" > /etc/locale.conf
 
-
 # Hostname
 read -p "Enter your desired hostname: " hostname
 echo "$hostname" > /etc/hostname
@@ -102,7 +101,7 @@ systemctl enable NetworkManager.service
 echo "%wheel ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 
 # User creation
-echo -n "Enter username for new user: "
+echo -n "Enter username for the new user: "
 read username
 useradd -m -g users -G wheel -s /bin/zsh "$username"
 passwd "$username"
@@ -110,10 +109,23 @@ passwd "$username"
 # Yay
 git clone https://aur.archlinux.org/yay.git
 cd yay
-makepkg -si
+makepkg -si --noconfirm
 
 # Install remaining packages
 yay -S hyprland-git xdg-desktop-portal-hyprland-git
 
-# End of the script
+# Copy Config Files
+read -n1 -rep "Would you like to copy config files? (Y,n)" CFG
+if [[ $CFG =~ ^[Yy]$ ]]; then
+    printf " Copying config files...\n"
+    cp -r dotconfig/dunst ~/.config/ 2>&1 | tee -a $LOG
+    cp -r dotconfig/hypr ~/.config/ 2>&1 | tee -a $LOG
+    cp -r dotconfig/kitty ~/.config/ 2>&1 | tee -a $LOG
+    cp -r dotconfig/pipewire ~/.config/ 2>&1 | tee -a $LOG
+    cp -r dotconfig/rofi ~/.config/ 2>&1 | tee -a $LOG
+    cp -r dotconfig/swaylock ~/.config/ 2>&1 | tee -a $LOG
+    cp -r dotconfig/waybar ~/.config/ 2>&1 | tee -a $LOG
+    cp -r dotconfig/wlogout ~/.config/ 2>&1 | tee -a $LOG
+fi
+
 echo "Installation complete!"
