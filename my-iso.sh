@@ -115,7 +115,7 @@ makepkg -si --noconfirm
 yay -S hyprland-git xdg-desktop-portal-hyprland-git
 
 # Copy Config Files
-read -n1 -rep "Would you like to copy config files? (Y,n)" CFG
+read -n1 -rep "Would you like to copy config files? (y,n)" CFG
 if [[ $CFG =~ ^[Yy]$ ]]; then
     printf " Copying config files...\n"
     cp -r dotconfig/dunst ~/.config/ 2>&1 | tee -a $LOG
