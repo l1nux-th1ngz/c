@@ -1,0 +1,76 @@
+{
+    "layer": "top",
+    "position": "top",
+    "height": 8,
+    "modules-left": ["clock"],
+    "modules-center": ["custom/previousmusic", "custom/spotify", "custom/nextmusic"],
+    "modules-right": ["custom/flameshot", "battery", "pulseaudio", "network"],
+    "clock": {
+        "format": " {:%d-%m-%Y %I:%M}",
+        "tooltip": false
+    },
+    "hyprland/window": {
+    	"format": "{}"
+    },
+    "battery": {
+        "format": "{icon} {capacity}%",
+        "format-icons": ["", "", "", ""],
+        "format-charging": "{icon} {capacity}%",
+        "interval": 30,
+        "states": {
+            "warning": 25,
+            "critical": 10
+        },
+        "tooltip": false
+    },
+    "network": {
+        "format": "{icon} {essid}",
+        "format-alt": "{ipaddr}/{cidr} {icon}",
+        "format-alt-click": "click-right",
+        "format-icons": {
+            "wifi": [""],
+            "ethernet": [""],
+            "disconnected": [""]
+        },
+        "on-click": "alacritty -e nmcli",
+    "tooltip": false
+    },
+    "pulseaudio": {
+        "format": "{icon} {volume}%",
+        "format-icons": {
+            "default": ["", "", ""]
+        },
+    	"on-click": "pavucontrol",
+	"tooltip": false
+    },
+    "custom/flameshot": {
+        "format": "{icon}",
+        "format-icons": {
+            "default": [""]
+        },
+        "on-click": "sleep 0.1 && grim -g \"$(slurp -b24273aba -c181926)\" - | wl-copy",
+        "tooltip": false
+    },
+    "custom/spotify": {
+        "format": "{}",
+        "tooltip": false,
+        "interval": 1,
+        "exec": "playerctl --player=spotify metadata -f \"{{artist}} - {{title}}\"",
+        "exec-if": "pgrep spotify",
+        "escape": true,
+        "on-click": "playerctl --player=spotify play-pause",
+        "on-scroll-up": "playerctl --player=spotify volume 0.05+",
+        "on-scroll-down": "playerctl --player=spotify volume 0.05-"
+    },
+    "idle_inhibitor": {
+        "format": "{icon}",
+        "format-icons": {
+            "activated": "",
+            "deactivated": ""
+        },
+        "tooltip": false
+    },
+    "tray": {
+        "icon-size": 18
+    }
+}

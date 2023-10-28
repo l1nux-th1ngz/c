@@ -1,0 +1,52 @@
+@import './macchiato.css';
+
+* {
+    border-color: #ffffff;
+    font-family:   "JetBrains Mono", "Font Awesome 6 Free";
+    font-size:     13px;
+    font-weight: 700;
+    color: @base;
+    box-shadow:    none;
+    text-shadow:   none;
+    transition-duration: 0s;
+}
+
+window#waybar {
+    background-color: @base;
+}
+
+#clock, 
+#network, 
+#custom-flameshot, 
+#pulseaudio, 
+#battery, 
+#tray,
+#window,
+#custom-spotify,
+#custom-nextmusic,
+#custom-previousmusic {
+    border-style: solid;
+    color: @text;
+    border-radius: 5px;
+    padding: 5px 10px 3px 10px;
+}
+
+* {
+  color: @text;
+}
+
+#custom-flameshot {
+  color: @red;
+}
+
+#battery {
+  color: @green;
+}
+
+#pulseaudio {
+  color: @blue;
+}
+
+#network {
+  color: @sapphire;
+}
